@@ -4,8 +4,7 @@
 //
 //  Created by dimitri on 29/11/2023.
 //
-import SwiftUI
-import Firebase
+
 import SwiftUI
 import Firebase
 
@@ -17,7 +16,7 @@ class BooksViewModel: ObservableObject {
     func fetchBooks() {
         let db = Firestore.firestore()
         
-        // S'il y a déjà un listener enregistré, nous n'avons pas besoin de l'ajouter à nouveau.
+       
         if listener != nil { return }
         
         listener = db.collection("books").addSnapshotListener { [weak self] (querySnapshot, err) in
@@ -32,8 +31,7 @@ class BooksViewModel: ObservableObject {
                     let data = diff.document.data()
                     let typeRef = data["typeId"] as? DocumentReference
                     let documentId = diff.document.documentID
-                    
-                    // Vérifier si le livre est déjà présent dans la liste
+              
                     guard !self.books.contains(where: { $0.id == documentId }) else { return }
                     
                     typeRef?.getDocument { (typeSnapshot, typeErr) in
@@ -55,7 +53,7 @@ class BooksViewModel: ObservableObject {
                         }
                     }
                 }
-                // Ajouter ici des cas pour .modified si nécessaire
+   
             }
         }
     }
@@ -79,7 +77,7 @@ class BooksViewModel: ObservableObject {
         }
     }
 
-    // Appelé pour nettoyer le listener
+
     func detachListener() {
         listener?.remove()
         listener = nil
