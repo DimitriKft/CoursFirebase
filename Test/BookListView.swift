@@ -32,7 +32,9 @@ struct BooksListView: View {
                     }
                 }
             }
-            .onAppear(perform: viewModel.fetchBooks)
+            .onAppear {
+                viewModel.fetchBooks()
+            }
         }
     }
 }
